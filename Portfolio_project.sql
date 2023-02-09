@@ -82,11 +82,11 @@ ORDER BY name
 WITH pizza_table AS 
 (SELECT order_id, 
 	name, 
-    size,  
-    category, 
-    ingredients, 
-    quantity, 
-    price
+    	size,  
+    	category, 
+    	ingredients, 
+    	quantity, 
+    	price
 FROM order_details AS od
 LEFT JOIN pizzas AS pz
 ON od.pizza_id = pz.pizza_id
@@ -116,8 +116,8 @@ AND ingredients NOT LIKE '%mushroom%'
 
  WITH pizza_table AS (
  SELECT category, 
-				name,  
-                ROUND(SUM(quantity*price), 2) AS revenue
+	 name,
+	 ROUND(SUM(quantity*price), 2) AS revenue
 FROM order_details AS od
 LEFT JOIN pizzas AS pz
 ON od.pizza_id = pz.pizza_id
@@ -127,7 +127,7 @@ GROUP BY category, name)
 
 SELECT category, name, 
 RANK() OVER (PARTITION BY category
-										ORDER BY revenue DESC) AS rank_n
+	     ORDER BY revenue DESC) AS rank_n
 FROM pizza_table
 ORDER BY category, rank_n;
 
@@ -175,8 +175,8 @@ ORDER BY total_sales DESC;
 
 WITH all_orders AS (
 SELECT EXTRACT(month FROM date) AS month, 
-				category,  
-                ROUND(SUM(quantity*price), 2) AS revenue
+	category,  
+        ROUND(SUM(quantity*price), 2) AS revenue
 FROM order_details AS od
 LEFT JOIN orders AS ors
 ON od.order_id = ors.order_id
@@ -188,7 +188,7 @@ GROUP BY month, category)
 
 SELECT month, category, revenue,
 RANK() OVER(PARTITION BY month 
-							ORDER BY revenue DESC) AS rank_n
+		ORDER BY revenue DESC) AS rank_n
 FROM all_orders
 ORDER BY month, rank_n
 
